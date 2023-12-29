@@ -1,0 +1,16 @@
+For these rare situations, Terraform has special handling of any configuration file whose name ends in _override.tf or _override.tf.json. This special handling also applies to a file named literally override.tf or override.tf.json.
+
+
+$ terraform init
+
+
+$ terraform plan
+
+
+Expected Result:
+
+
+resource "aws_instance" "web" {
+  instance_type = "t2.micro"
+  ami           = "foo"
+}
