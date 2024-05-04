@@ -2,11 +2,14 @@ resource "aws_security_group" "learning_security_group" {
   name = "learning-security-group"
   vpc_id = data.aws_vpcs.query_vpcs.ids[0]
   tags = merge(var.tags, local.additional_tags)
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["49.207.200.62/32"]
+  dynamic "ingress" {
+    for_each = var.ingress_rules 
+    content {
+      from_port   = ingress.value.from_port
+      to_port     = ingress.value.to_port
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+    }
   }
 
   egress {
